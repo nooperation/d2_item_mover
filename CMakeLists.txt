@@ -4,6 +4,8 @@ set(CMAKE_BUILD_PARALLEL_LEVEL 20)
 
 project(d2tweaks)
 
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB_RECURSE sources
