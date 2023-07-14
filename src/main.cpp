@@ -2,10 +2,6 @@
 
 #include <MinHook.h>
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-
 #include <memory>
 
 #include <common/d2common.h>
@@ -50,27 +46,6 @@ bool does_stash_window_open() {
 
 bool does_cube_window_open() {
 	return *reinterpret_cast<int32_t*>(d2_client + 0x11A710) > 0;
-}
-
-void init_log() {
-	const auto console_err = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-	const auto logPath = "item_mover.log";
-	const auto file = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logPath);
-
-	// ReSharper disable once CppSmartPointerVsMakeFunction
-	auto logger = std::shared_ptr<spdlog::logger>(new spdlog::logger("item_mover", { file, console_err }));
-
-	logger->flush_on(spdlog::level::trace);
-
-	set_default_logger(logger);
-
-#ifndef NDEBUG
-	spdlog::set_level(spdlog::level::debug);
-#else
-	spdlog::set_level(spdlog::level::info);
-#endif
-
-	spdlog::info("Log system initialized");
 }
 
 int32_t(__fastcall* g_item_click_original)(unit* playerUnit, inventory* inventory, int mouse_x, int mouse_y, uint8_t flag, void* a6, unsigned int page);
@@ -148,14 +123,11 @@ static item_mover::client g_client;
 
 extern "C" {
 	EP_HEADER
-		init_log();
 
 	if (MH_Initialize() != MH_OK) {
 		MessageBox(nullptr, "Cannot initialize hook system!", "Error", MB_OK | MB_ICONSTOP);
 		exit(0);
 	}
-
-	spdlog::debug("item_click: {0}", static_cast<void*>(d2_client + 0x475C0));
 
 	MH_CreateHook(d2_client + 0x475C0, item_click, reinterpret_cast<void**>(&g_item_click_original));
 

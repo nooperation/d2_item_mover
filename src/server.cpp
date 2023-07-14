@@ -3,8 +3,6 @@
 #include <Windows.h>
 #include <MinHook.h>
 
-#include <spdlog/spdlog.h>
-
 #include <common/d2protocol.h>
 #include <common/d2common.h>
 #include <common/d2function.h>
@@ -152,8 +150,6 @@ bool item_mover::server::handle_item_move(game* game, unit* player, d2_protocol:
 
 	if (item == nullptr)
 		return true; //block further packet processing
-
-	spdlog::debug("Got d2_protocol::item_move_cs");
 
 	const auto inventoryIndex = get_inventory_index(player, itemMove->target_page, game->item_format == 101);
 

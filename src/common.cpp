@@ -3,8 +3,6 @@
 #include <Windows.h>
 #include <MinHook.h>
 
-#include <spdlog/spdlog.h>
-
 #include <common/d2protocol.h>
 
 static char* d2_net = reinterpret_cast<char*>(GetModuleHandle("d2net.dll"));

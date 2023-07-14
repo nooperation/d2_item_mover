@@ -4,8 +4,6 @@ set(CMAKE_BUILD_PARALLEL_LEVEL 20)
 
 project(d2_item_mover)
 
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
-
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB_RECURSE sources
@@ -40,21 +38,5 @@ set_target_properties(minhook PROPERTIES
 	MAP_IMPORTED_CONFIG_MINSIZEREL Release
 	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
 )
-
-#spdlog
-find_package(spdlog CONFIG REQUIRED)
-set_target_properties(spdlog::spdlog PROPERTIES
-	MAP_IMPORTED_CONFIG_MINSIZEREL Release
-	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
-)
-set_target_properties(fmt::fmt PROPERTIES
-	MAP_IMPORTED_CONFIG_MINSIZEREL Release
-	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
-)
-set_target_properties(fmt::fmt-header-only PROPERTIES
-	MAP_IMPORTED_CONFIG_MINSIZEREL Release
-	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
-)
-target_link_libraries(d2_item_mover PRIVATE spdlog::spdlog)
 
 set_target_properties(d2_item_mover PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/out/install)

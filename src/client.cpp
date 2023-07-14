@@ -3,8 +3,6 @@
 #include <Windows.h>
 #include <MinHook.h>
 
-#include <spdlog/spdlog.h>
-
 #include <common/d2protocol.h>
 #include <common/d2common.h>
 #include <common/d2function.h>
@@ -88,8 +86,6 @@ void item_mover::client::handle_item_move(d2_protocol::packet_header* packet) co
 
 	if (item == nullptr)
 		return;
-
-	spdlog::debug("[CLIENT] Got {0} packet!", reinterpret_cast<void*>(packet->d2_packet_type));
 
 	const auto player = get_local_player();
 
