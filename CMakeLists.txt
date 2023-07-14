@@ -4,6 +4,8 @@ set(CMAKE_BUILD_PARALLEL_LEVEL 20)
 
 project(d2_item_mover)
 
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB_RECURSE sources
@@ -15,7 +17,11 @@ file(GLOB_RECURSE sources
 
 add_library(d2_item_mover SHARED ${sources})
 
-set(D2_BASE_DIR D:/Games/Diablo\ II/)
+set(CMAKE_CXX_FLAGS "/DWIN32 /D_WINDOWS /W3 /GR /EHsc")
+set(CMAKE_CXX_FLAGS_DEBUG "/MTd /Zi /Ob0 /Od /RTC1")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "/MT /O1 /Ob1 /DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "/MT /O2 /Ob2 /DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MT /Zi /O2 /Ob1 /DNDEBUG")
 
 add_compile_definitions(WIN32_LEAN_AND_MEAN)
 
@@ -30,13 +36,25 @@ target_link_libraries(d2_item_mover PRIVATE wsock32 ws2_32)
 #MinHook
 add_subdirectory(vendor/minhook)
 target_link_libraries(d2_item_mover PRIVATE minhook)
+set_target_properties(minhook PROPERTIES
+	MAP_IMPORTED_CONFIG_MINSIZEREL Release
+	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+)
 
 #spdlog
 find_package(spdlog CONFIG REQUIRED)
+set_target_properties(spdlog::spdlog PROPERTIES
+	MAP_IMPORTED_CONFIG_MINSIZEREL Release
+	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+)
+set_target_properties(fmt::fmt PROPERTIES
+	MAP_IMPORTED_CONFIG_MINSIZEREL Release
+	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+)
+set_target_properties(fmt::fmt-header-only PROPERTIES
+	MAP_IMPORTED_CONFIG_MINSIZEREL Release
+	MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+)
 target_link_libraries(d2_item_mover PRIVATE spdlog::spdlog)
 
-#fmt
-find_package(fmt CONFIG REQUIRED)
-target_link_libraries(d2_item_mover PRIVATE fmt::fmt fmt::fmt-header-only)
-
-set_target_properties(d2_item_mover PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${D2_BASE_DIR}/MODS/Zy-El\ v.4.5.1/)
+set_target_properties(d2_item_mover PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/out/install)

@@ -70,6 +70,10 @@ target_include_directories(minhook PUBLIC
 target_include_directories(minhook PRIVATE "src/")
 target_include_directories(minhook PRIVATE "src/hde/")
 
+if(MSVC)
+  target_compile_options(minhook PRIVATE "/MT$<$<CONFIG:Debug>:d>")
+endif()
+
 if(WIN32)
   set_target_properties(minhook PROPERTIES PREFIX "")
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)   

@@ -19,7 +19,7 @@
 //Uncomment on of the defines that corresponds to your mod loader
 //#define PLUGY
 //OR
-//#define D2_MOD
+#define D2_MOD
 
 #include <loader.h>
 
