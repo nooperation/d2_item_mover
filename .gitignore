@@ -3,3 +3,4 @@ reversing/*
 .idea/*
 out/*
 cmake-build-debug/*
+build/*
