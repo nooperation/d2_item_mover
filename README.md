@@ -8,3 +8,4 @@ This is an earlier version of d2tweaks ( https://github.com/Revan600/d2tweaks ) 
  2. open the d2_item_mover directory in visual studio
  3. build
  4. binaries will be output to ./out/install
+ 
