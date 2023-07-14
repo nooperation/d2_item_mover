@@ -8,7 +8,7 @@ namespace d2_protocol {
 	struct packet_header;
 }
 
-typedef void(__cdecl* UpdateItemExternalSignature)(uint32_t itemId, uint32_t x, uint32_t y, uint8_t page);
+typedef void(__cdecl* UpdateItemLocationExternalSignature)(uint32_t itemId, uint32_t x, uint32_t y, uint8_t page);
 
 namespace item_mover {
 	class client {
@@ -23,6 +23,6 @@ namespace item_mover {
 
 		void handle_item_move(d2_protocol::packet_header* packet) const;
 
-		UpdateItemExternalSignature UpdateItemExternal = nullptr;
+		UpdateItemLocationExternalSignature UpdateItemLocationExternal = nullptr;
 	};
 }
