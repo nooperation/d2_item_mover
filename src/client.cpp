@@ -55,6 +55,9 @@ item_mover::client::client() {
 
 void item_mover::client::init() {
 	MH_CreateHook(reinterpret_cast<void*>(d2_client + 0x11CB0), ::handle_packet, reinterpret_cast<void**>(&g_handle_packet));
+
+	const auto d2hackitModule = GetModuleHandle(TEXT("d2hackit.dll"));
+	UpdateItemExternal = (UpdateItemExternalSignature)GetProcAddress(d2hackitModule, "UpdateItemExternal");
 }
 
 void item_mover::client::handle_packet(d2_protocol::packet_header* packet) const {
@@ -104,4 +107,8 @@ void item_mover::client::handle_item_move(d2_protocol::packet_header* packet) co
 		play_sound(itemRecord->wdropsound, nullptr, 0, 0, 0);
 	else
 		play_sound(4, nullptr, 0, 0, 0);
+
+	if (UpdateItemExternal != nullptr) {
+		UpdateItemExternal(itemMove->item_guid, itemMove->tx, itemMove->ty, itemMove->target_page);
+	}
 }
