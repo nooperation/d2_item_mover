@@ -16,7 +16,7 @@ build_script:
 
     cmake --build . --config Release
 artifacts:
-- path: .\out\install\Release\d2_item_mover.dll
+- path: .\out\install\Release\D2CtrlMove.dll
   name: d2_item_mover_v${APPVEYOR_BUILD_VERSION}
   type: WebDeployPackage
 deploy:
